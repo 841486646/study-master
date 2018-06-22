@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户信息</title>
+    <script src="../resources/js/jquery-validation/jquery.min.js"></script>
+    <script src="../resources/js/jquery-validation/jquery.validate.min.js"></script>
+    <script src="../resources/js/jquery-validation/messages_zh.js"></script>
+    <script src="../resources/js/jquery-validation/additional-methods.js"></script>
+    <script>
+        $().ready(function() {
+            $("#userInfoForm").validate({
+                rules: {
+                    username: {
+                        required: true,
+                        minlength: 2,
+                        validateName: true
+                    },
+                    age: {
+                        required: true,
+                        digits:true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    username: {
+                        required: "请输入用户名",
+                        minlength: "用户名必需由两个字母组成"
+                    },
+                    age: {
+                        required: "请输入年龄",
+                        digits: "必须输入整数"
+                    },
+                    email: "请输入一个正确的邮箱"
+                },
+                onkeyup:false
+            });
+        });
+    </script>
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<form id="userInfoForm" method="post" action="">
+    <fieldset>
+        <legend>用户基本信息</legend>
+        <p>
+            <label for="username">用户名</label>
+            <input id="username" name="username" type="text">
+        </p>
+        <p>
+            <label for="age">年龄</label>
+            <input id="age" name="age" type="text">
+        </p>
+        <p>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email">
+        </p>
+        <p>
+            <input class="submit" type="submit" value="提交">
+        </p>
+    </fieldset>
+</form>
+</body>
+</html>

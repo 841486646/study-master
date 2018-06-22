@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <bean id="taskService" class="cn.sw.study.common.test.spring.task.TaskServiceImpl"></bean>
+
+    <bean id="taskServiceJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="taskService"/>
+        </property>
+        <property name="targetMethod">
+            <value>test</value>
+        </property>
+    </bean>
+    <bean id="taskServiceTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="taskServiceJob"></property>
+        <property name="cronExpression" value="0/5 * * * * ?"></property>
+    </bean>
+    <bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="taskServiceTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

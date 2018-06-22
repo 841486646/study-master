@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- 激活spring的注解. -->
+    <context:annotation-config />
+
+    <context:component-scan base-package="cn.sw.study.common.test.spring.aop" />
+
+    <aop:config>
+        <aop:aspect id="log" ref="logHandler">
+            <aop:pointcut id="printLog" expression="execution(* cn.sw.study.common.test.spring.aop.service..*(..))" />
+            <aop:before method="LogBefore" pointcut-ref="printLog" />
+            <aop:after method="LogAfter" pointcut-ref="printLog" />
+        </aop:aspect>
+    </aop:config>
+</beans>

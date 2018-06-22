@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:redis="http://www.springframework.org/schema/redis"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd">
+
+    <!-- Jedis 连接池配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.max_idle}"/>
+        <property name="maxTotal" value="${redis.max_total}"/>
+        <property name="minIdle" value="${redis.min_idle}"/>
+        <property name="testOnBorrow" value="${redis.test_on_borrow}"/>
+        <property name="testOnReturn" value="${redis.test_on_return}"/>
+    </bean>
+
+    <!-- Jedis ConnectionFactory 数据库连接配置，注意id名称必须为redisConnectionFactory-->
+    <bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="password" value="${redis.password}"/>
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+        <property name="database" value="${redis.database}"/>
+    </bean>
+
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="redisConnectionFactory"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="hashKeySerializer" ref="stringRedisSerializer"/>
+        <property name="defaultSerializer" ref="jsonRedisSerializer"/>
+    </bean>
+
+    <!--创建redis模板-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="redisConnectionFactory"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="hashKeySerializer" ref="stringRedisSerializer"/>
+        <property name="defaultSerializer" ref="stringRedisSerializer"/>
+    </bean>
+    <bean id="jsonRedisSerializer" class="cn.sw.study.redis.listener.GenericJackson2JsonRedisSerializer"/>
+    <!--序列化-->
+    <bean id="jdkSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+
+    <!--消息监听处理类-->
+    <bean id="messageDelegateListener" class="cn.sw.study.redis.listener.ListenMessage"/>
+
+    <bean id="messageListener" class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
+        <property name="delegate" ref="messageDelegateListener"/>
+        <property name="serializer" ref="stringRedisSerializer"/>
+    </bean>
+
+    <!--消息监听-->
+    <redis:listener-container>
+        <!--指定消息处理方法，序列化方式及主题名称-->
+        <redis:listener ref="messageListener" method="handleMessage" serializer="stringRedisSerializer" topic="testSendMessage"/>
+    </redis:listener-container>
+
+</beans>

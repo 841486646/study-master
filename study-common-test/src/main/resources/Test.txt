@@ -1,0 +1,56 @@
+public class Test {
+  public Test();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    Code:
+       0: iconst_1
+       1: istore_1
+       2: iconst_2
+       3: istore_2
+       4: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+       7: iload_1
+       8: iload_2
+       9: iadd
+      10: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+      13: return
+}
+
+{
+  public Test();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 4: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=3, locals=3, args_size=1
+         0: iconst_1
+         1: istore_1
+         2: iconst_2
+         3: istore_2
+         4: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         7: iload_1
+         8: iload_2
+         9: iadd
+        10: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        13: return
+      LineNumberTable:
+        line 6: 0
+        line 7: 2
+        line 8: 4
+        line 9: 13
+}

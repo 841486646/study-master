@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>测试上传</title>
+    <script src="../resources/js/jquery-validation/jquery.min.js"></script>
+</head>
+<body>
+<form id="userInfoForm" method="post"
+      action="../user/userPicUpload" enctype="multipart/form-data">
+    <fieldset>
+        <legend>用户基本信息</legend>
+        <p>
+            <label for="userPic">头像</label>
+            <input id="userPic" name="userPic" type="file">
+        </p>
+        <p>
+            <input class="submit" type="submit" value="提交">
+        </p>
+    </fieldset>
+</form>
+</body>
+</html>

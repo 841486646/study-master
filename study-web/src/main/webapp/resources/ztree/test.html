@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/zTreeStyle.css">
+    <script type="text/javascript" src="js/jquery-1.4.4.min.js" ></script>
+    <script type="text/javascript" src="js/jquery.ztree.core-3.5.min.js" ></script>
+    <script type="text/javascript" src="js/jquery.ztree.excheck-3.5.min.js"></script>
+</head>
+<body>
+<legend>ztree</legend>
+<fieldset>
+    <div>
+        <ul id="treeTest" class="ztree"></ul>
+    </div>
+</fieldset>
+</body>
+<script type="text/javascript">
+    var setting = {
+        check: {
+            enable: true
+        },
+        view: {
+            fontCss: getFont,
+            nameIsHTML: true
+        },
+        data: {
+            simpleData: {
+                idKey: "id",
+                pIdKey: "pId",
+                enable: true,
+                rootPId: 0
+            }
+        }
+    };
+    function getFont(treeId, node) {
+        return node.font ? node.font : {};
+    }
+    $(function() {
+        var zNodes =[
+            { name:"测试1", font:{'background-color':'blue', 'color':'white'}},
+            { name:"<span style='color:#32ff2d;'>测试html</span>"},
+            { name:"测试2", font:{'color':'red'}},
+            { name:"默认"}
+        ];
+        $.fn.zTree.init($("#treeTest"), setting, zNodes);
+    });
+</script>
+</html>
